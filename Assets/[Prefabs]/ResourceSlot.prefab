@@ -133,3 +133,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34ac88731acecb74f9225c990da10405, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_ResourceScore: 0
+  hiddenSlotColor: {r: 0.16, g: 0, b: 0, a: 1}
+  QuarterSlotColor: {r: 1, g: 0.5, b: 0, a: 1}
+  HalfSlotColor: {r: 1, g: 1, b: 0, a: 1}
+  MaxSlotColor: {r: 1, g: 1, b: 1, a: 1}
+  m_ResourceColor: {r: 0, g: 0, b: 0, a: 0}
