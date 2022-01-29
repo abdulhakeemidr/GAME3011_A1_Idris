@@ -3,11 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum ResourceSlotState
-{
-    ScanMode,
-    ExtractMode
-}
 
 public static class ResourceType
 {
@@ -63,7 +58,7 @@ public class ResourceSlotController : MonoBehaviour
         m_ResourceScore = RandomResource[Random.Range(0, 4)];
 
         SetResourceColor();
-        Debug_ToggleResourceColor();
+        //Debug_ToggleResourceColor();
     }
 
     // Update is called once per frame
@@ -96,29 +91,28 @@ public class ResourceSlotController : MonoBehaviour
 
     void Debug_ToggleResourceColor()
     {
-        if(m_resourceSlotColor.color == hiddenSlotColor)
+        if(isExtracted == false)
         {
-            m_resourceSlotColor.color = m_ResourceScoreColor;
+            if(m_resourceSlotColor.color == hiddenSlotColor)
+            {
+                m_resourceSlotColor.color = m_ResourceScoreColor;
+            }
+            else
+            {
+                m_resourceSlotColor.color = hiddenSlotColor;
+            }
         }
-        else
-        {
-            m_resourceSlotColor.color = hiddenSlotColor;
-        }
-    }
-
-    void ToggleResourceState()
-    {
-
+        
     }
 
     void ExtractResource()
     {
         if(GridOrganizer.instance.slotState != ResourceSlotState.ExtractMode)
         {
-            Debug.Log("In Scan Mode");
             return;
         }
 
-        Debug.Log("In Extract Mode");
+        m_resourceSlotColor.color = m_ResourceScoreColor;
+        isExtracted = true;
     }
 }

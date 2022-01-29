@@ -43,4 +43,15 @@ public class GridOrganizer : MonoBehaviour
         Debug.Log("Generated Item Slots");
     }
 
+    public void ToggleResourceState()
+    {
+        if(slotState == ResourceSlotState.ExtractMode)
+        {
+            slotState = ResourceSlotState.ScanMode;
+        }
+        else
+        {
+            slotState = ResourceSlotState.ExtractMode;
+        }
+    }
 }
