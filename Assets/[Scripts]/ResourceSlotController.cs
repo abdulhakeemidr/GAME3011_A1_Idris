@@ -22,11 +22,19 @@ public class ResourceSlotController : MonoBehaviour
 {
     [SerializeField]
     private int m_ResourceScore;
-    
-    ResourceSlotState slotState;
+    [SerializeField]
+    Color m_ResourceScoreColor = new Color();
+    bool isExtracted = false;
+
+
     Image m_resourceSlotColor;
+    Button m_resourceSlotButton;
+
+
     [SerializeField]
     Color hiddenSlotColor = new Color(0.16f, 0, 0, 1f);
+    [SerializeField]
+    Color EmptySlotColor = new Color(0, 0, 0, 1f);
     [SerializeField]
     Color QuarterSlotColor = new Color();
     [SerializeField]
@@ -34,12 +42,16 @@ public class ResourceSlotController : MonoBehaviour
     [SerializeField]
     Color MaxSlotColor = new Color();
     [SerializeField]
-    Color m_ResourceColor = new Color();
+    Color ExtractedSlotColor = new Color();
 
     void Start()
     {
         m_resourceSlotColor = GetComponent<Image>();
+        m_resourceSlotButton = GetComponent<Button>();
         
+
+        m_resourceSlotButton.onClick.AddListener(ExtractResource);
+
         m_resourceSlotColor.color = hiddenSlotColor;
         int[] RandomResource = new int[] 
         {
@@ -51,13 +63,16 @@ public class ResourceSlotController : MonoBehaviour
         m_ResourceScore = RandomResource[Random.Range(0, 4)];
 
         SetResourceColor();
-        ToggleResourceColor();
+        Debug_ToggleResourceColor();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(Input.GetKeyDown(KeyCode.M))
+        {
+            Debug_ToggleResourceColor();
+        }
     }
 
     void SetResourceColor()
@@ -65,25 +80,25 @@ public class ResourceSlotController : MonoBehaviour
         switch(m_ResourceScore)
         {
             case ResourceType.EmptyResource:
-            m_ResourceColor = hiddenSlotColor;
+            m_ResourceScoreColor = EmptySlotColor;
             break;
             case ResourceType.QuarterResource:
-            m_ResourceColor = QuarterSlotColor;
+            m_ResourceScoreColor = QuarterSlotColor;
             break;
             case ResourceType.HalfResource:
-            m_ResourceColor = HalfSlotColor;
+            m_ResourceScoreColor = HalfSlotColor;
             break;
             case ResourceType.MaxResource:
-            m_ResourceColor = MaxSlotColor;
+            m_ResourceScoreColor = MaxSlotColor;
             break;
         }
     }
 
-    void ToggleResourceColor()
+    void Debug_ToggleResourceColor()
     {
         if(m_resourceSlotColor.color == hiddenSlotColor)
         {
-            m_resourceSlotColor.color = m_ResourceColor;
+            m_resourceSlotColor.color = m_ResourceScoreColor;
         }
         else
         {
@@ -91,13 +106,19 @@ public class ResourceSlotController : MonoBehaviour
         }
     }
 
-    void ToggleScanMode()
+    void ToggleResourceState()
     {
 
     }
 
-    void ToggleExtractMode()
+    void ExtractResource()
     {
+        if(GridOrganizer.instance.slotState != ResourceSlotState.ExtractMode)
+        {
+            Debug.Log("In Scan Mode");
+            return;
+        }
 
+        Debug.Log("In Extract Mode");
     }
 }

@@ -134,8 +134,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ResourceScore: 0
+  m_ResourceScoreColor: {r: 0, g: 0, b: 0, a: 0}
   hiddenSlotColor: {r: 0.16, g: 0, b: 0, a: 1}
-  QuarterSlotColor: {r: 1, g: 0.5, b: 0, a: 1}
+  EmptySlotColor: {r: 0, g: 0, b: 0, a: 1}
+  QuarterSlotColor: {r: 1, g: 0.25, b: 0, a: 1}
   HalfSlotColor: {r: 1, g: 1, b: 0, a: 1}
   MaxSlotColor: {r: 1, g: 1, b: 1, a: 1}
-  m_ResourceColor: {r: 0, g: 0, b: 0, a: 0}
+  ExtractedSlotColor: {r: 0, g: 0.25, b: 1, a: 1}
