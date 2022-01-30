@@ -47,7 +47,15 @@ public class ResourceSlotController : MonoBehaviour
         
 
         m_resourceSlotButton.onClick.AddListener(ExtractResource);
+        m_resourceSlotButton.onClick.
+        AddListener(
+            delegate
+            {
+                GameplayUIManager.instance.AddCollectedResources(m_ResourceScore); 
+            }
+        );
         m_resourceSlotButton.onClick.AddListener(GameplayUIManager.instance.DecreaseExtractTurns);
+        m_resourceSlotButton.onClick.AddListener(GameplayUIManager.instance.DecreaseScanTurns);
 
         m_resourceSlotColor.color = hiddenSlotColor;
         int[] RandomResource = new int[] 
@@ -115,6 +123,12 @@ public class ResourceSlotController : MonoBehaviour
 
         if(isExtracted == true) return;
 
+        if(GameplayUIManager.instance.NumberOfExtractTurns == 0)
+        {
+            Debug.Log("Game Over");
+            return;
+        }
+
         // if(m_ScoreColor == EmptySlotColor)
         // {
         //     m_resourceSlotColor.color = EmptySlotColor;
@@ -127,5 +141,14 @@ public class ResourceSlotController : MonoBehaviour
         isExtracted = true;
         m_resourceSlotButton.enabled = false;
         Debug.Log("Collected Item");
+    }
+
+    void ScanResource()
+    {
+        if(GridOrganizer.instance.slotState != ResourceSlotState.ScanMode)
+        {
+            Debug.Log("This is not scan mode");
+            return;
+        }
     }
 }
