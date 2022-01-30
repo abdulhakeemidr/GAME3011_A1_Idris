@@ -18,8 +18,9 @@ public class ResourceSlotController : MonoBehaviour
     [SerializeField]
     private int m_ResourceScore;
     [SerializeField]
-    Color m_ResourceScoreColor = new Color();
+    Color m_ScoreColor = new Color();
     bool isExtracted = false;
+    bool isScanned = false;
 
 
     Image m_resourceSlotColor;
@@ -46,6 +47,7 @@ public class ResourceSlotController : MonoBehaviour
         
 
         m_resourceSlotButton.onClick.AddListener(ExtractResource);
+        m_resourceSlotButton.onClick.AddListener(GameplayUIManager.instance.DecreaseExtractTurns);
 
         m_resourceSlotColor.color = hiddenSlotColor;
         int[] RandomResource = new int[] 
@@ -75,44 +77,55 @@ public class ResourceSlotController : MonoBehaviour
         switch(m_ResourceScore)
         {
             case ResourceType.EmptyResource:
-            m_ResourceScoreColor = EmptySlotColor;
+            m_ScoreColor = EmptySlotColor;
             break;
             case ResourceType.QuarterResource:
-            m_ResourceScoreColor = QuarterSlotColor;
+            m_ScoreColor = QuarterSlotColor;
             break;
             case ResourceType.HalfResource:
-            m_ResourceScoreColor = HalfSlotColor;
+            m_ScoreColor = HalfSlotColor;
             break;
             case ResourceType.MaxResource:
-            m_ResourceScoreColor = MaxSlotColor;
+            m_ScoreColor = MaxSlotColor;
             break;
         }
     }
 
     void Debug_ToggleResourceColor()
     {
-        if(isExtracted == false)
+        if(isExtracted == true) return;
+
+        if(m_resourceSlotColor.color == hiddenSlotColor)
         {
-            if(m_resourceSlotColor.color == hiddenSlotColor)
-            {
-                m_resourceSlotColor.color = m_ResourceScoreColor;
-            }
-            else
-            {
-                m_resourceSlotColor.color = hiddenSlotColor;
-            }
+            m_resourceSlotColor.color = m_ScoreColor;
         }
-        
+        else
+        {
+            m_resourceSlotColor.color = hiddenSlotColor;
+        }
     }
 
     void ExtractResource()
     {
         if(GridOrganizer.instance.slotState != ResourceSlotState.ExtractMode)
         {
+            Debug.Log("This is not extract mode");
             return;
         }
 
-        m_resourceSlotColor.color = m_ResourceScoreColor;
+        if(isExtracted == true) return;
+
+        // if(m_ScoreColor == EmptySlotColor)
+        // {
+        //     m_resourceSlotColor.color = EmptySlotColor;
+        // }
+        // else
+        // {
+        //     m_resourceSlotColor.color = ExtractedSlotColor;
+        // }
+        m_resourceSlotColor.color = m_ScoreColor;
         isExtracted = true;
+        m_resourceSlotButton.enabled = false;
+        Debug.Log("Collected Item");
     }
 }

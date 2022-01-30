@@ -12,6 +12,8 @@ public class GridOrganizer : MonoBehaviour
     GridLayoutGroup gridLayout;
     [SerializeField]
     Vector2Int GridDimensions = new Vector2Int(6, 6);
+
+
     [SerializeField]
     List<ResourceSlotController> resourceSlots;
     [SerializeField]
@@ -25,6 +27,7 @@ public class GridOrganizer : MonoBehaviour
     void Start()
     {
         gridLayout = GetComponent<GridLayoutGroup>();
+
         gridLayout.constraintCount = GridDimensions.y;
 
         slotState = ResourceSlotState.ExtractMode;
@@ -43,6 +46,8 @@ public class GridOrganizer : MonoBehaviour
         Debug.Log("Generated Item Slots");
     }
 
+
+    // This function is called by the toggle button UI
     public void ToggleResourceState()
     {
         if(slotState == ResourceSlotState.ExtractMode)

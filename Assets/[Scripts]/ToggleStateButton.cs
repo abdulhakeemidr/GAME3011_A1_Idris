@@ -11,7 +11,6 @@ public class ToggleStateButton : MonoBehaviour
     {
         toggleText = GetComponentInChildren<Text>();
         toggleButton = GetComponent<Toggle>();
-
     }
 
     // Update is called once per frame
@@ -26,6 +25,4 @@ public class ToggleStateButton : MonoBehaviour
             toggleText.text = "Extract Mode";
         }
     }
-
-
 }
