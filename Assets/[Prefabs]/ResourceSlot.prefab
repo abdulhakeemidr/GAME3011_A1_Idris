@@ -134,7 +134,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ResourceScore: 0
-  m_ResourceScoreColor: {r: 0, g: 0, b: 0, a: 0}
+  m_ScoreColor: {r: 0, g: 0, b: 0, a: 0}
+  m_resourceSlotColor: {fileID: 0}
   hiddenSlotColor: {r: 0.16, g: 0, b: 0, a: 1}
   EmptySlotColor: {r: 0, g: 0, b: 0, a: 1}
   QuarterSlotColor: {r: 1, g: 0.25, b: 0, a: 1}

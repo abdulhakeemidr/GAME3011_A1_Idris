@@ -215,7 +215,7 @@ MonoBehaviour:
     m_Bottom: 25
   m_ChildAlignment: 0
   m_StartCorner: 0
-  m_StartAxis: 0
+  m_StartAxis: 1
   m_CellSize: {x: 30, y: 30}
   m_Spacing: {x: 5, y: 5}
   m_Constraint: 2
@@ -234,7 +234,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ResourceSlotPrefab: {fileID: 6598443444555258047, guid: 67ef1e1b73ed7524cb802b9d182a5307, type: 3}
   GridDimensions: {x: 16, y: 16}
-  resourceSlots: []
   slotState: 0
 --- !u!114 &52006297
 MonoBehaviour:

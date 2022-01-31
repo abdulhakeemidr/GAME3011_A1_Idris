@@ -4,6 +4,19 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
+public enum PeripheralSlot
+{
+    TOP,
+    BOTTOM,
+    LEFT,
+    RIGHT,
+    TOPLEFT,
+    TOPRIGHT,
+    BOTTOMLEFT,
+    BOTTOMRIGHT
+}
+
+
 public static class ResourceType
 {
     public const int MaxResource = 5000;
@@ -131,7 +144,12 @@ public class ResourceSlotController : MonoBehaviour
             return;
         }
 
+        // Displays color
         m_resourceSlotColor.color = m_ScoreColor;
+        // Dims the color to 1/4th after displaying to represent it is extracted
+        //m_resourceSlotColor.color /= 4f;
+        float dim = 0.4f;
+        m_resourceSlotColor.color *= new Color(dim, dim, dim, 1f);
         isExtracted = true;
         m_resourceSlotButton.enabled = false;
         GameplayUIManager.instance.AddCollectedResources(m_ResourceScore);
@@ -156,22 +174,73 @@ public class ResourceSlotController : MonoBehaviour
         }
 
         Vector2Int thisSlotIndex = new Vector2Int();
-        /* for(int i = 0; i < GridOrganizer.instance.ResourceSlots.Count; i++)
+        // Vector2Int topLeftIndex = new Vector2Int(-1, -1);
+        // Vector2Int topRightIndex = new Vector2Int(1, 1);
+        // Vector2Int topIndex = new Vector2Int(0, -1);
+        // Vector2Int BottomIndex = new Vector2Int(0, 1);
+        // Vector2Int LeftIndex = new Vector2Int(-1, 0);
+        // Vector2Int RightIndex = new Vector2Int(1, 0);
+        // Vector2Int debugtest = new Vector2Int(5, 99);
+        // Debug.Log(debugtest.y);
+        // Debug.Log(debugtest.x);
+        bool isTerminated = false;
+        for(int i = 0; i < GridOrganizer.instance.resourceSlots.Count; i++)
         {
-            thisSlotIndex.y = i;
-            for(int j = 0; j < GridOrganizer.instance.ResourceSlots.Count; j++)
+            //thisSlotIndex.y = i;
+            // used to completely break out of nested for loop
+            if(!isTerminated)
             {
-                thisSlotIndex.x = j;
-                if(GridOrganizer.instance.ResourceSlots[i][j] == this)
+                for(int j = 0; j < GridOrganizer.instance.resourceSlots.Count; j++)
                 {
-                    GridOrganizer.instance.ResourceSlots[i][j].m_resourceSlotColor.color = Color.black;
-                    break;
+                    thisSlotIndex.y = j;
+                    if(GridOrganizer.instance.resourceSlots[i][j] == this)
+                    {
+                        //GridOrganizer.instance.resourceSlots[i][j].m_resourceSlotColor.color = Color.black;
+                        isTerminated = true;
+                        break;
+                    }
                 }
             }
-        } */
+            else break;
+            thisSlotIndex.x = i;
+        }
+        Debug.Log(thisSlotIndex.x);
+        Debug.Log(thisSlotIndex.y);
+
+        Vector2Int topIndex = new Vector2Int(thisSlotIndex.x, thisSlotIndex.y - 1);
+        var topSlot = GridOrganizer.instance.resourceSlots[topIndex.x][topIndex.y];
+        topSlot.m_resourceSlotColor.color = topSlot.m_ScoreColor;
+        topSlot.isScanned = true;
+
+        Vector2Int bottomIndex = new Vector2Int(thisSlotIndex.x, thisSlotIndex.y + 1);
+        var bottomSlot = GridOrganizer.instance.resourceSlots[bottomIndex.x][bottomIndex.y];
+        bottomSlot.m_resourceSlotColor.color = bottomSlot.m_ScoreColor;
+        bottomSlot.isScanned = true;
+
+        Vector2Int topLeftIndex = new Vector2Int(thisSlotIndex.x - 1, thisSlotIndex.y - 1);
+        var topLeftSlot = GridOrganizer.instance.resourceSlots[topLeftIndex.x][topLeftIndex.y];
+        topLeftSlot.m_resourceSlotColor.color = topLeftSlot.m_ScoreColor;
+        topLeftSlot.isScanned = true;
+        
+        Vector2Int leftIndex = new Vector2Int(thisSlotIndex.x - 1, thisSlotIndex.y);
+        var leftSlot = GridOrganizer.instance.resourceSlots[leftIndex.x][leftIndex.y];
+        leftSlot.m_resourceSlotColor.color = leftSlot.m_ScoreColor;
+        leftSlot.isScanned = true;
+
+        
+        // int Xlength = (int)Mathf.Sqrt(GridOrganizer.instance.resourceSlots.Count);
+        // if(thisSlotIndex.x < (Xlength - 1))
+        // {
+
+        // }
         
         m_resourceSlotColor.color = m_ScoreColor;
         isScanned = true;
         GameplayUIManager.instance.DecreaseScanTurns();
+    }
+
+    void ScanSlotPosition(PeripheralSlot position)
+    {
+
     }
 }
