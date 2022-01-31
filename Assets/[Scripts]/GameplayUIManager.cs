@@ -13,7 +13,7 @@ public class GameplayUIManager : MonoBehaviour
     [SerializeField]
     public int NumberOfExtractTurns = 3;
     [SerializeField]
-    int NumberOfScanTurns = 6;
+    public int NumberOfScanTurns = 6;
     int CollectedResources = 0;
     void Awake()
     {
@@ -49,6 +49,7 @@ public class GameplayUIManager : MonoBehaviour
         go_CollectedResources.GetComponent<Text>().text = 0.ToString();
     }
 
+    // Add Resources to total score
     public void AddCollectedResources(int ResourceAdded)
     {
         if(GridOrganizer.instance.slotState == ResourceSlotState.ScanMode) return;
@@ -60,6 +61,7 @@ public class GameplayUIManager : MonoBehaviour
         go_CollectedResources.GetComponent<Text>().text = CollectedResources.ToString();        
     }
 
+    // Decrease number of extract clicks left
     public void DecreaseExtractTurns()
     {
         if(GridOrganizer.instance.slotState == ResourceSlotState.ScanMode) return;
@@ -71,9 +73,15 @@ public class GameplayUIManager : MonoBehaviour
         go_NumberOfExtracts.GetComponent<Text>().text = NumberOfExtractTurns.ToString();
     }
 
+    // Decrease number of Scan clicks left
     public void DecreaseScanTurns()
     {
         if(GridOrganizer.instance.slotState == ResourceSlotState.ExtractMode) return;
         if(NumberOfScanTurns == 0) return;
+
+
+        Debug.Log("Decreasing scan turns");
+        NumberOfScanTurns--;
+        go_NumberOfScans.GetComponent<Text>().text = NumberOfScanTurns.ToString();
     }
 }

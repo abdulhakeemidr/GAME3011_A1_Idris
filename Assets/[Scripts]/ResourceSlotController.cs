@@ -22,8 +22,8 @@ public class ResourceSlotController : MonoBehaviour
     bool isExtracted = false;
     bool isScanned = false;
 
-
-    Image m_resourceSlotColor;
+    [HideInInspector]
+    public Image m_resourceSlotColor;
     Button m_resourceSlotButton;
 
 
@@ -45,17 +45,18 @@ public class ResourceSlotController : MonoBehaviour
         m_resourceSlotColor = GetComponent<Image>();
         m_resourceSlotButton = GetComponent<Button>();
         
-
         m_resourceSlotButton.onClick.AddListener(ExtractResource);
-        m_resourceSlotButton.onClick.
+        m_resourceSlotButton.onClick.AddListener(ScanResource);
+        /* m_resourceSlotButton.onClick.
         AddListener(
             delegate
             {
                 GameplayUIManager.instance.AddCollectedResources(m_ResourceScore); 
             }
-        );
-        m_resourceSlotButton.onClick.AddListener(GameplayUIManager.instance.DecreaseExtractTurns);
-        m_resourceSlotButton.onClick.AddListener(GameplayUIManager.instance.DecreaseScanTurns);
+        ); */
+        // Update Extract turns UI
+        //m_resourceSlotButton.onClick.AddListener(GameplayUIManager.instance.DecreaseExtractTurns);
+        //m_resourceSlotButton.onClick.AddListener(GameplayUIManager.instance.DecreaseScanTurns);
 
         m_resourceSlotColor.color = hiddenSlotColor;
         int[] RandomResource = new int[] 
@@ -102,6 +103,7 @@ public class ResourceSlotController : MonoBehaviour
     void Debug_ToggleResourceColor()
     {
         if(isExtracted == true) return;
+        if(isScanned == true) return;
 
         if(m_resourceSlotColor.color == hiddenSlotColor)
         {
@@ -129,17 +131,11 @@ public class ResourceSlotController : MonoBehaviour
             return;
         }
 
-        // if(m_ScoreColor == EmptySlotColor)
-        // {
-        //     m_resourceSlotColor.color = EmptySlotColor;
-        // }
-        // else
-        // {
-        //     m_resourceSlotColor.color = ExtractedSlotColor;
-        // }
         m_resourceSlotColor.color = m_ScoreColor;
         isExtracted = true;
         m_resourceSlotButton.enabled = false;
+        GameplayUIManager.instance.AddCollectedResources(m_ResourceScore);
+        GameplayUIManager.instance.DecreaseExtractTurns();
         Debug.Log("Collected Item");
     }
 
@@ -150,5 +146,32 @@ public class ResourceSlotController : MonoBehaviour
             Debug.Log("This is not scan mode");
             return;
         }
+
+        if(isScanned == true) return;
+
+        if(GameplayUIManager.instance.NumberOfScanTurns == 0)
+        {
+            Debug.Log("You are out of scans");
+            return;
+        }
+
+        Vector2Int thisSlotIndex = new Vector2Int();
+        /* for(int i = 0; i < GridOrganizer.instance.ResourceSlots.Count; i++)
+        {
+            thisSlotIndex.y = i;
+            for(int j = 0; j < GridOrganizer.instance.ResourceSlots.Count; j++)
+            {
+                thisSlotIndex.x = j;
+                if(GridOrganizer.instance.ResourceSlots[i][j] == this)
+                {
+                    GridOrganizer.instance.ResourceSlots[i][j].m_resourceSlotColor.color = Color.black;
+                    break;
+                }
+            }
+        } */
+        
+        m_resourceSlotColor.color = m_ScoreColor;
+        isScanned = true;
+        GameplayUIManager.instance.DecreaseScanTurns();
     }
 }

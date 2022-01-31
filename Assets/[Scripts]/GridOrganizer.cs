@@ -15,7 +15,8 @@ public class GridOrganizer : MonoBehaviour
 
 
     [SerializeField]
-    List<ResourceSlotController> resourceSlots;
+    List<List<ResourceSlotController>> resourceSlots;
+    public List<List<ResourceSlotController>> ResourceSlots {get;}
     [SerializeField]
     public ResourceSlotState slotState;
 
@@ -27,21 +28,28 @@ public class GridOrganizer : MonoBehaviour
     void Start()
     {
         gridLayout = GetComponent<GridLayoutGroup>();
-
         gridLayout.constraintCount = GridDimensions.y;
+
+        resourceSlots = new List<List<ResourceSlotController>>();
 
         slotState = ResourceSlotState.ExtractMode;
         
-        int numCells = GridDimensions.x * GridDimensions.y;
 
+        int numCells = GridDimensions.x * GridDimensions.y;
         while (transform.childCount < numCells)
         {
             GameObject newObject = Instantiate(ResourceSlotPrefab, this.transform);
         }
 
-        for(int i = 0; i < numCells; i++)
+        int cellCount = 0;
+        for(int i = 0; i < GridDimensions.x; i++)
         {
-            resourceSlots.Add(transform.GetChild(i).GetComponent<ResourceSlotController>());
+            resourceSlots.Add(new List<ResourceSlotController>());
+            for(int j = 0; j < GridDimensions.y; j++)
+            {
+                resourceSlots[i].Add(transform.GetChild(cellCount).GetComponent<ResourceSlotController>());
+                cellCount++;
+            }
         }
         Debug.Log("Generated Item Slots");
     }
