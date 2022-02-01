@@ -56,7 +56,7 @@ public class ResourceSlotController : MonoBehaviour
 
     void Start()
     {
-        Vector2Int thisSlotIndex = new Vector2Int();
+        thisSlotIndex = new Vector2Int();
         m_resourceSlotColor = GetComponent<Image>();
         m_resourceSlotButton = GetComponent<Button>();
         
@@ -140,7 +140,7 @@ public class ResourceSlotController : MonoBehaviour
         m_resourceSlotColor.color = m_ScoreColor;
         // Dims the color to 1/4th after displaying to represent it is extracted
         //m_resourceSlotColor.color /= 4f;
-        float dim = 0.4f;
+        float dim = 0.45f;
         m_resourceSlotColor.color *= new Color(dim, dim, dim, 1f);
         isExtracted = true;
         m_resourceSlotButton.enabled = false;
@@ -189,8 +189,9 @@ public class ResourceSlotController : MonoBehaviour
         }
         //Debug.Log(thisSlotIndex.x);
         //Debug.Log(thisSlotIndex.y);
-
-        /* Vector2Int topIndex = thisSlotIndex + new Vector2Int(0, -1);
+        {
+        
+        Vector2Int topIndex = thisSlotIndex + new Vector2Int(0, -1);
         var topSlot = GridOrganizer.instance.resourceSlots[topIndex.x][topIndex.y];
         topSlot.m_resourceSlotColor.color = topSlot.m_ScoreColor;
         topSlot.isScanned = true;
@@ -200,24 +201,46 @@ public class ResourceSlotController : MonoBehaviour
         bottomSlot.m_resourceSlotColor.color = bottomSlot.m_ScoreColor;
         bottomSlot.isScanned = true;
 
+        Vector2Int leftIndex = thisSlotIndex + new Vector2Int(-1, 0);
+        var leftSlot = GridOrganizer.instance.resourceSlots[leftIndex.x][leftIndex.y];
+        leftSlot.m_resourceSlotColor.color = leftSlot.m_ScoreColor;
+        leftSlot.isScanned = true;
+
+        Vector2Int rightIndex = thisSlotIndex + new Vector2Int(1, 0);
+        var rightSlot = GridOrganizer.instance.resourceSlots[rightIndex.x][rightIndex.y];
+        rightSlot.m_resourceSlotColor.color = rightSlot.m_ScoreColor;
+        rightSlot.isScanned = true;
+
         Vector2Int topLeftIndex = thisSlotIndex + new Vector2Int(-1, -1);
         var topLeftSlot = GridOrganizer.instance.resourceSlots[topLeftIndex.x][topLeftIndex.y];
         topLeftSlot.m_resourceSlotColor.color = topLeftSlot.m_ScoreColor;
         topLeftSlot.isScanned = true;
-        
-        Vector2Int leftIndex = thisSlotIndex + new Vector2Int(-1, 0);
-        var leftSlot = GridOrganizer.instance.resourceSlots[leftIndex.x][leftIndex.y];
-        leftSlot.m_resourceSlotColor.color = leftSlot.m_ScoreColor;
-        leftSlot.isScanned = true; */
 
-        var topSlot = ScanGetPeripheralSlot(PeripheralSlot.TOP, thisSlotIndex);
-        var bottomSlot = ScanGetPeripheralSlot(PeripheralSlot.BOTTOM, thisSlotIndex);
-        var leftSlot = ScanGetPeripheralSlot(PeripheralSlot.LEFT, thisSlotIndex);
-        var rightSlot = ScanGetPeripheralSlot(PeripheralSlot.RIGHT, thisSlotIndex);
-        var topLeftSlot = ScanGetPeripheralSlot(PeripheralSlot.TOPLEFT, thisSlotIndex);
-        var bottomLeftSlot = ScanGetPeripheralSlot(PeripheralSlot.BOTTOMLEFT, thisSlotIndex);
-        var topRightSlot = ScanGetPeripheralSlot(PeripheralSlot.TOPRIGHT, thisSlotIndex);
-        var bottomRightSlot = ScanGetPeripheralSlot(PeripheralSlot.BOTTOMRIGHT, thisSlotIndex);
+        Vector2Int bottomLeftIndex = thisSlotIndex + new Vector2Int(-1, 1);
+        var bottomLeftSlot = GridOrganizer.instance.resourceSlots[bottomLeftIndex.x][bottomLeftIndex.y];
+        bottomLeftSlot.m_resourceSlotColor.color = bottomLeftSlot.m_ScoreColor;
+        bottomLeftSlot.isScanned = true;
+
+        Vector2Int topRightIndex = thisSlotIndex + new Vector2Int(1, -1);
+        var topRightSlot = GridOrganizer.instance.resourceSlots[topRightIndex.x][topRightIndex.y];
+        topRightSlot.m_resourceSlotColor.color = topRightSlot.m_ScoreColor;
+        topRightSlot.isScanned = true;
+        
+        Vector2Int bottomRightIndex = thisSlotIndex + new Vector2Int(1, 1);
+        var bottomRightSlot = GridOrganizer.instance.resourceSlots[bottomRightIndex.x][bottomRightIndex.y];
+        bottomRightSlot.m_resourceSlotColor.color = bottomRightSlot.m_ScoreColor;
+        bottomRightSlot.isScanned = true;
+        
+        }
+
+        // var topSlot = ScanGetPeripheralSlot(PeripheralSlot.TOP, thisSlotIndex);
+        // var bottomSlot = ScanGetPeripheralSlot(PeripheralSlot.BOTTOM, thisSlotIndex);
+        // var leftSlot = ScanGetPeripheralSlot(PeripheralSlot.LEFT, thisSlotIndex);
+        // var rightSlot = ScanGetPeripheralSlot(PeripheralSlot.RIGHT, thisSlotIndex);
+        // var topLeftSlot = ScanGetPeripheralSlot(PeripheralSlot.TOPLEFT, thisSlotIndex);
+        // var bottomLeftSlot = ScanGetPeripheralSlot(PeripheralSlot.BOTTOMLEFT, thisSlotIndex);
+        // var topRightSlot = ScanGetPeripheralSlot(PeripheralSlot.TOPRIGHT, thisSlotIndex);
+        // var bottomRightSlot = ScanGetPeripheralSlot(PeripheralSlot.BOTTOMRIGHT, thisSlotIndex);
         
         m_resourceSlotColor.color = m_ScoreColor;
         isScanned = true;
@@ -231,7 +254,7 @@ public class ResourceSlotController : MonoBehaviour
         switch(position)
         {
             case PeripheralSlot.TOP:
-                index = slotPosIndex + new Vector2Int(0, -1);
+                index = thisSlotIndex + new Vector2Int(0, -1);
                 peripheralSlot = GridOrganizer.instance.resourceSlots[slotPosIndex.x][slotPosIndex.y];
             break;
 
@@ -273,7 +296,7 @@ public class ResourceSlotController : MonoBehaviour
 
         peripheralSlot.m_resourceSlotColor.color = peripheralSlot.m_ScoreColor;
         peripheralSlot.isScanned = true;
-
+        Debug.Log("Scanned Resource");
         return peripheralSlot;
     }
 }
