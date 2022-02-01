@@ -74,7 +74,7 @@ public class ResourceSlotController : MonoBehaviour
         m_ResourceScore = RandomResource[Random.Range(0, 4)];
 
         SetResourceColor();
-        //Debug_ToggleResourceColor();
+        //FindThisSlotPosition();
     }
 
     // Update is called once per frame
@@ -84,6 +84,33 @@ public class ResourceSlotController : MonoBehaviour
         {
             Debug_ToggleResourceColor();
         }
+    }
+
+    void FindThisSlotPosition()
+    {
+        bool isTerminated = false;
+        for(int i = 0; i < GridOrganizer.instance.resourceSlots.Count; i++)
+        {
+            //thisSlotIndex.y = i;
+            // used to completely break out of nested for loop
+            if(!isTerminated)
+            {
+                for(int j = 0; j < GridOrganizer.instance.resourceSlots.Count; j++)
+                {
+                    thisSlotIndex.y = j;
+                    if(GridOrganizer.instance.resourceSlots[i][j] == this)
+                    {
+                        //GridOrganizer.instance.resourceSlots[i][j].m_resourceSlotColor.color = Color.black;
+                        isTerminated = true;
+                        break;
+                    }
+                }
+            }
+            else break;
+            thisSlotIndex.x = i;
+        }
+        //Debug.Log(thisSlotIndex.x);
+        //Debug.Log(thisSlotIndex.y);
     }
 
     void SetResourceColor()
@@ -128,11 +155,16 @@ public class ResourceSlotController : MonoBehaviour
             return;
         }
 
-        if(isExtracted == true) return;
+        if(isExtracted == true)
+        {
+            GameplayUIManager.instance.DisplayMessage("This grid's resources have been extracted.");
+            return;
+        }
 
         if(GameplayUIManager.instance.NumberOfExtractTurns == 0)
         {
             Debug.Log("Game Over");
+            GameplayUIManager.instance.GameOverMessage();
             return;
         }
 
@@ -157,7 +189,11 @@ public class ResourceSlotController : MonoBehaviour
             return;
         }
 
-        if(isScanned == true) return;
+        if(isScanned == true)
+        {
+            GameplayUIManager.instance.DisplayMessage("This grid is already scanned");
+            return;
+        }
 
         if(GameplayUIManager.instance.NumberOfScanTurns == 0)
         {
@@ -166,29 +202,7 @@ public class ResourceSlotController : MonoBehaviour
         }
 
 
-        bool isTerminated = false;
-        for(int i = 0; i < GridOrganizer.instance.resourceSlots.Count; i++)
-        {
-            //thisSlotIndex.y = i;
-            // used to completely break out of nested for loop
-            if(!isTerminated)
-            {
-                for(int j = 0; j < GridOrganizer.instance.resourceSlots.Count; j++)
-                {
-                    thisSlotIndex.y = j;
-                    if(GridOrganizer.instance.resourceSlots[i][j] == this)
-                    {
-                        //GridOrganizer.instance.resourceSlots[i][j].m_resourceSlotColor.color = Color.black;
-                        isTerminated = true;
-                        break;
-                    }
-                }
-            }
-            else break;
-            thisSlotIndex.x = i;
-        }
-        //Debug.Log(thisSlotIndex.x);
-        //Debug.Log(thisSlotIndex.y);
+        FindThisSlotPosition();
         {
         
         Vector2Int topIndex = thisSlotIndex + new Vector2Int(0, -1);
