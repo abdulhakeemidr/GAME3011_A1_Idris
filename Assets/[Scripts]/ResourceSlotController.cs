@@ -203,58 +203,15 @@ public class ResourceSlotController : MonoBehaviour
 
 
         FindThisSlotPosition();
-        {
-        
-        Vector2Int topIndex = thisSlotIndex + new Vector2Int(0, -1);
-        var topSlot = GridOrganizer.instance.resourceSlots[topIndex.x][topIndex.y];
-        topSlot.m_resourceSlotColor.color = topSlot.m_ScoreColor;
-        topSlot.isScanned = true;
 
-        Vector2Int bottomIndex = thisSlotIndex + new Vector2Int(0, 1);
-        var bottomSlot = GridOrganizer.instance.resourceSlots[bottomIndex.x][bottomIndex.y];
-        bottomSlot.m_resourceSlotColor.color = bottomSlot.m_ScoreColor;
-        bottomSlot.isScanned = true;
-
-        Vector2Int leftIndex = thisSlotIndex + new Vector2Int(-1, 0);
-        var leftSlot = GridOrganizer.instance.resourceSlots[leftIndex.x][leftIndex.y];
-        leftSlot.m_resourceSlotColor.color = leftSlot.m_ScoreColor;
-        leftSlot.isScanned = true;
-
-        Vector2Int rightIndex = thisSlotIndex + new Vector2Int(1, 0);
-        var rightSlot = GridOrganizer.instance.resourceSlots[rightIndex.x][rightIndex.y];
-        rightSlot.m_resourceSlotColor.color = rightSlot.m_ScoreColor;
-        rightSlot.isScanned = true;
-
-        Vector2Int topLeftIndex = thisSlotIndex + new Vector2Int(-1, -1);
-        var topLeftSlot = GridOrganizer.instance.resourceSlots[topLeftIndex.x][topLeftIndex.y];
-        topLeftSlot.m_resourceSlotColor.color = topLeftSlot.m_ScoreColor;
-        topLeftSlot.isScanned = true;
-
-        Vector2Int bottomLeftIndex = thisSlotIndex + new Vector2Int(-1, 1);
-        var bottomLeftSlot = GridOrganizer.instance.resourceSlots[bottomLeftIndex.x][bottomLeftIndex.y];
-        bottomLeftSlot.m_resourceSlotColor.color = bottomLeftSlot.m_ScoreColor;
-        bottomLeftSlot.isScanned = true;
-
-        Vector2Int topRightIndex = thisSlotIndex + new Vector2Int(1, -1);
-        var topRightSlot = GridOrganizer.instance.resourceSlots[topRightIndex.x][topRightIndex.y];
-        topRightSlot.m_resourceSlotColor.color = topRightSlot.m_ScoreColor;
-        topRightSlot.isScanned = true;
-        
-        Vector2Int bottomRightIndex = thisSlotIndex + new Vector2Int(1, 1);
-        var bottomRightSlot = GridOrganizer.instance.resourceSlots[bottomRightIndex.x][bottomRightIndex.y];
-        bottomRightSlot.m_resourceSlotColor.color = bottomRightSlot.m_ScoreColor;
-        bottomRightSlot.isScanned = true;
-        
-        }
-
-        // var topSlot = ScanGetPeripheralSlot(PeripheralSlot.TOP, thisSlotIndex);
-        // var bottomSlot = ScanGetPeripheralSlot(PeripheralSlot.BOTTOM, thisSlotIndex);
-        // var leftSlot = ScanGetPeripheralSlot(PeripheralSlot.LEFT, thisSlotIndex);
-        // var rightSlot = ScanGetPeripheralSlot(PeripheralSlot.RIGHT, thisSlotIndex);
-        // var topLeftSlot = ScanGetPeripheralSlot(PeripheralSlot.TOPLEFT, thisSlotIndex);
-        // var bottomLeftSlot = ScanGetPeripheralSlot(PeripheralSlot.BOTTOMLEFT, thisSlotIndex);
-        // var topRightSlot = ScanGetPeripheralSlot(PeripheralSlot.TOPRIGHT, thisSlotIndex);
-        // var bottomRightSlot = ScanGetPeripheralSlot(PeripheralSlot.BOTTOMRIGHT, thisSlotIndex);
+        var topSlot = ScanGetPeripheralSlot(PeripheralSlot.TOP, thisSlotIndex);
+        var bottomSlot = ScanGetPeripheralSlot(PeripheralSlot.BOTTOM, thisSlotIndex);
+        var leftSlot = ScanGetPeripheralSlot(PeripheralSlot.LEFT, thisSlotIndex);
+        var rightSlot = ScanGetPeripheralSlot(PeripheralSlot.RIGHT, thisSlotIndex);
+        var topLeftSlot = ScanGetPeripheralSlot(PeripheralSlot.TOPLEFT, thisSlotIndex);
+        var bottomLeftSlot = ScanGetPeripheralSlot(PeripheralSlot.BOTTOMLEFT, thisSlotIndex);
+        var topRightSlot = ScanGetPeripheralSlot(PeripheralSlot.TOPRIGHT, thisSlotIndex);
+        var bottomRightSlot = ScanGetPeripheralSlot(PeripheralSlot.BOTTOMRIGHT, thisSlotIndex);
         
         m_resourceSlotColor.color = m_ScoreColor;
         isScanned = true;
@@ -269,42 +226,42 @@ public class ResourceSlotController : MonoBehaviour
         {
             case PeripheralSlot.TOP:
                 index = thisSlotIndex + new Vector2Int(0, -1);
-                peripheralSlot = GridOrganizer.instance.resourceSlots[slotPosIndex.x][slotPosIndex.y];
+                peripheralSlot = GridOrganizer.instance.resourceSlots[index.x][index.y];
             break;
 
             case PeripheralSlot.BOTTOM:
                 index = slotPosIndex + new Vector2Int(0, 1);
-                peripheralSlot = GridOrganizer.instance.resourceSlots[slotPosIndex.x][slotPosIndex.y];
+                peripheralSlot = GridOrganizer.instance.resourceSlots[index.x][index.y];
             break;
 
             case PeripheralSlot.LEFT:
                 index = slotPosIndex + new Vector2Int(-1, 0);
-                peripheralSlot = GridOrganizer.instance.resourceSlots[slotPosIndex.x][slotPosIndex.y];
+                peripheralSlot = GridOrganizer.instance.resourceSlots[index.x][index.y];
             break;
 
             case PeripheralSlot.RIGHT:
                 index = slotPosIndex + new Vector2Int(1, 0);
-                peripheralSlot = GridOrganizer.instance.resourceSlots[slotPosIndex.x][slotPosIndex.y];
+                peripheralSlot = GridOrganizer.instance.resourceSlots[index.x][index.y];
             break;
 
             case PeripheralSlot.TOPLEFT:
                 index = slotPosIndex + new Vector2Int(-1, -1);
-                peripheralSlot = GridOrganizer.instance.resourceSlots[slotPosIndex.x][slotPosIndex.y];
+                peripheralSlot = GridOrganizer.instance.resourceSlots[index.x][index.y];
             break;
 
             case PeripheralSlot.TOPRIGHT:
                 index = slotPosIndex + new Vector2Int(1, -1);
-                peripheralSlot = GridOrganizer.instance.resourceSlots[slotPosIndex.x][slotPosIndex.y];
+                peripheralSlot = GridOrganizer.instance.resourceSlots[index.x][index.y];
             break;
 
             case PeripheralSlot.BOTTOMLEFT:
                 index = slotPosIndex + new Vector2Int(-1, 1);
-                peripheralSlot = GridOrganizer.instance.resourceSlots[slotPosIndex.x][slotPosIndex.y];
+                peripheralSlot = GridOrganizer.instance.resourceSlots[index.x][index.y];
             break;
 
             case PeripheralSlot.BOTTOMRIGHT:
                 index = slotPosIndex + new Vector2Int(1, 1);
-                peripheralSlot = GridOrganizer.instance.resourceSlots[slotPosIndex.x][slotPosIndex.y];
+                peripheralSlot = GridOrganizer.instance.resourceSlots[index.x][index.y];
             break;
         }
 
