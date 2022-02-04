@@ -204,14 +204,51 @@ public class ResourceSlotController : MonoBehaviour
 
         FindThisSlotPosition();
 
-        var topSlot = ScanGetPeripheralSlot(PeripheralSlot.TOP, thisSlotIndex);
-        var bottomSlot = ScanGetPeripheralSlot(PeripheralSlot.BOTTOM, thisSlotIndex);
-        var leftSlot = ScanGetPeripheralSlot(PeripheralSlot.LEFT, thisSlotIndex);
-        var rightSlot = ScanGetPeripheralSlot(PeripheralSlot.RIGHT, thisSlotIndex);
-        var topLeftSlot = ScanGetPeripheralSlot(PeripheralSlot.TOPLEFT, thisSlotIndex);
-        var bottomLeftSlot = ScanGetPeripheralSlot(PeripheralSlot.BOTTOMLEFT, thisSlotIndex);
-        var topRightSlot = ScanGetPeripheralSlot(PeripheralSlot.TOPRIGHT, thisSlotIndex);
-        var bottomRightSlot = ScanGetPeripheralSlot(PeripheralSlot.BOTTOMRIGHT, thisSlotIndex);
+        // check if top slot is out of bounds
+        if(thisSlotIndex.y != 0)
+        {
+            ScanGetPeripheralSlot(PeripheralSlot.TOP, thisSlotIndex);
+
+            if(thisSlotIndex.x != 0)
+            {
+            ScanGetPeripheralSlot(PeripheralSlot.TOPLEFT, thisSlotIndex);
+            }
+
+            if(thisSlotIndex.x != GridOrganizer.instance.resourceSlots.Count - 1)
+            {
+            ScanGetPeripheralSlot(PeripheralSlot.TOPRIGHT, thisSlotIndex);
+            }
+        }
+
+        // check if bottom slot is out of bounds (if clicked on bottom edge)
+        if(thisSlotIndex.y != GridOrganizer.instance.resourceSlots[0].Count - 1)
+        {
+            ScanGetPeripheralSlot(PeripheralSlot.BOTTOM, thisSlotIndex);
+            
+            // check if bottom left slot is out of array (if clicked on left edge)
+            if(thisSlotIndex.x != 0)
+            {
+                ScanGetPeripheralSlot(PeripheralSlot.BOTTOMLEFT, thisSlotIndex);
+            }
+
+            // check if bottom left slot is out of array (if clicked on right edge)
+            if(thisSlotIndex.x != GridOrganizer.instance.resourceSlots.Count - 1)
+            {
+                ScanGetPeripheralSlot(PeripheralSlot.BOTTOMRIGHT, thisSlotIndex);
+            }
+        }
+
+        if(thisSlotIndex.x != 0)
+        {
+            ScanGetPeripheralSlot(PeripheralSlot.LEFT, thisSlotIndex);
+        }
+
+        if(thisSlotIndex.x != GridOrganizer.instance.resourceSlots.Count - 1)
+        {
+            ScanGetPeripheralSlot(PeripheralSlot.RIGHT, thisSlotIndex);
+        }
+
+        
         
         m_resourceSlotColor.color = m_ScoreColor;
         isScanned = true;
