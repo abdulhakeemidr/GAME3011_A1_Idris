@@ -18,6 +18,8 @@ public class GameplayUIManager : MonoBehaviour
     [SerializeField]
     public int NumberOfScanTurns = 6;
     int CollectedResources = 0;
+
+    public GameObject endButton;
     void Awake()
     {
         instance = this;
@@ -104,5 +106,6 @@ public class GameplayUIManager : MonoBehaviour
     public void GameOverMessage()
     {
         go_MessageBar.GetComponent<TextMeshProUGUI>().text = "Game Over.\nYou have acquired " + CollectedResources + " resources.";
+        endButton.SetActive(true);
     }
 }

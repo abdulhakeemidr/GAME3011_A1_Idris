@@ -4,43 +4,30 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public enum PeripheralSlot
-{
-    TOP,
-    BOTTOM,
-    LEFT,
-    RIGHT,
-    TOPLEFT,
-    TOPRIGHT,
-    BOTTOMLEFT,
-    BOTTOMRIGHT
-}
-
-
-public static class ResourceType
-{
-    public const int MaxResource = 5000;
-    public const int HalfResource = 2500;
-    public const int QuarterResource = 1250;
-    public const int EmptyResource = 0;
-    
-}
 
 public class ResourceSlotController : MonoBehaviour
 {
-    [SerializeField]
+    [SerializeField, Header("Resource Slot Info")]
     private int m_ResourceScore;
     [SerializeField]
     Color m_ScoreColor = new Color();
+
+    [Header("Resource Probability Percentage")]
+    public int MaxResourceProbability = 5;
+    public int HalfResourceProbability = 5;
+    public int QuarterResourceProbability = 20;
+    public int emptyResourceProbability = 70;
+    SpawnProbability[] probability = new SpawnProbability[4];
     bool isExtracted = false;
     bool isScanned = false;
     Vector2Int thisSlotIndex;
 
     [HideInInspector]
-    public Image m_resourceSlotColor;
+    public Image m_displayedSlotColor;
     Button m_resourceSlotButton;
 
 
+    [Header("Resource Colours")]
     [SerializeField]
     Color hiddenSlotColor = new Color(0.16f, 0, 0, 1f);
     [SerializeField]
@@ -57,24 +44,47 @@ public class ResourceSlotController : MonoBehaviour
     void Start()
     {
         thisSlotIndex = new Vector2Int();
-        m_resourceSlotColor = GetComponent<Image>();
+        m_displayedSlotColor = GetComponent<Image>();
         m_resourceSlotButton = GetComponent<Button>();
         
         m_resourceSlotButton.onClick.AddListener(ExtractResource);
         m_resourceSlotButton.onClick.AddListener(ScanResource);
         
-        m_resourceSlotColor.color = hiddenSlotColor;
-        int[] RandomResource = new int[] 
+        m_displayedSlotColor.color = hiddenSlotColor;
+        
+        
+        // 10 percent chance
+        probability[0] = new SpawnProbability(ResourceType.MaxResource);
+        probability[0].minProbability = 0;
+        probability[0].maxProbability = MaxResourceProbability;
+        
+        // 10 percent chance
+        probability[1] = new SpawnProbability(ResourceType.HalfResource);
+        probability[1].minProbability = probability[0].maxProbability;
+        probability[1].maxProbability = HalfResourceProbability + probability[0].maxProbability;
+
+        // 20 percent chance
+        probability[2] = new SpawnProbability(ResourceType.QuarterResource);
+        probability[2].minProbability = probability[1].maxProbability;
+        probability[2].maxProbability = QuarterResourceProbability + probability[1].maxProbability;
+
+        // 60 percent chance
+        probability[3] = new SpawnProbability(ResourceType.EmptyResource);
+        probability[3].minProbability = probability[2].maxProbability;
+        probability[3].maxProbability = emptyResourceProbability + probability[2].maxProbability;
+
+        int i = Random.Range(0, 100);
+
+        for(int index = 0; index < probability.Length; index++)
         {
-            ResourceType.MaxResource, 
-            ResourceType.HalfResource, 
-            ResourceType.QuarterResource, 
-            ResourceType.EmptyResource
-        };
-        m_ResourceScore = RandomResource[Random.Range(0, 4)];
+            if(i > probability[index].minProbability && i <= probability[index].maxProbability)
+            {
+                m_ResourceScore = probability[index].resourceValue;
+                break;
+            }
+        }
 
         SetResourceColor();
-        //FindThisSlotPosition();
     }
 
     // Update is called once per frame
@@ -137,13 +147,13 @@ public class ResourceSlotController : MonoBehaviour
         if(isExtracted == true) return;
         if(isScanned == true) return;
 
-        if(m_resourceSlotColor.color == hiddenSlotColor)
+        if(m_displayedSlotColor.color == hiddenSlotColor)
         {
-            m_resourceSlotColor.color = m_ScoreColor;
+            m_displayedSlotColor.color = m_ScoreColor;
         }
         else
         {
-            m_resourceSlotColor.color = hiddenSlotColor;
+            m_displayedSlotColor.color = hiddenSlotColor;
         }
     }
 
@@ -169,11 +179,11 @@ public class ResourceSlotController : MonoBehaviour
         }
 
         // Displays color
-        m_resourceSlotColor.color = m_ScoreColor;
+        m_displayedSlotColor.color = m_ScoreColor;
         // Dims the color to 1/4th after displaying to represent it is extracted
         //m_resourceSlotColor.color /= 4f;
         float dim = 0.45f;
-        m_resourceSlotColor.color *= new Color(dim, dim, dim, 1f);
+        m_displayedSlotColor.color *= new Color(dim, dim, dim, 1f);
         isExtracted = true;
         m_resourceSlotButton.enabled = false;
         GameplayUIManager.instance.AddCollectedResources(m_ResourceScore);
@@ -250,7 +260,7 @@ public class ResourceSlotController : MonoBehaviour
 
         
         
-        m_resourceSlotColor.color = m_ScoreColor;
+        m_displayedSlotColor.color = m_ScoreColor;
         isScanned = true;
         GameplayUIManager.instance.DecreaseScanTurns();
     }
@@ -302,7 +312,7 @@ public class ResourceSlotController : MonoBehaviour
             break;
         }
 
-        peripheralSlot.m_resourceSlotColor.color = peripheralSlot.m_ScoreColor;
+        peripheralSlot.m_displayedSlotColor.color = peripheralSlot.m_ScoreColor;
         peripheralSlot.isScanned = true;
         Debug.Log("Scanned Resource");
         return peripheralSlot;
