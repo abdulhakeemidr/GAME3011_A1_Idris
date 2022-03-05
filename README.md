@@ -19,19 +19,13 @@ d.	For tiles outside the quarter resource, you can choose to have the tiles empt
 
 
 MAX RESOURCE:
-
+Yellow Squares
  
 HALF RESOURCE:
- 
+Light Orange Squares
 
 QUARTER RESOURCE:
-
-
-
-
-
-
-
+Dark Orange Squares
 
 
 6)	The amount of resource, i.e. the colored tiles will be hidden from the user until they click on the toggle button to select Scan Mode that will allow them to click tiles on the grid. The maximum number of scans in total should be around 6.
